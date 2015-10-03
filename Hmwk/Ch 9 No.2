@@ -1,0 +1,89 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Sep 26, 2015
+ *      Author: David Hudkins II
+ *
+ *  Purpose: Dynamically Allocate Array of Test Scores and Sort
+ */
+
+//System Libraries
+#include<iostream>
+using namespace std;
+
+//Function Prototypes
+void getArr(float *, int);
+void srtArr(float [], int);
+
+int main()
+{
+	//Declare variables
+	float *tstScrs = NULL;	//Pointer to array for dynamic allocation
+	int numScor;			//INPUT-number of test scores
+
+	//Prompt user to input number of test scores
+	cout << "Please declare the number of test scores to be entered: ";
+	cin >> numScor;
+	//Dynamically allocate array of test scores
+	tstScrs = new float[numScor];
+	//Get test scores for array
+	getArr(tstScrs, numScor);
+	//Sort test scores in array
+	srtArr(tstScrs, numScor);
+
+	//Terminate program
+	return 0;
+}
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////FUNCTION PROTOTYPES//////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+/*getArr receives a dynamically allocated array and its size and then prompts
+ * the user to input the test scores.
+ */
+void getArr(float *arr, int max)
+{
+	//Prompt user to input test scores
+	cout << "Please input " << max << " non-negative test scores : " << endl;
+	//Loop for test score input
+	for(int i=0; i<max; i++)
+	{
+		//Display test score number
+		cout << "Score " << i + 1 << ": ";
+		//Loop for input validation
+		do
+		{
+			cin >> arr[i];
+			if(arr[i]<0)
+				cout << "Enter a non-negative test score: ";
+		}while(arr[i]< 0);
+	}
+}
+
+/*srtArr receives an array and its size and then sorts the array in ascending
+ * order
+ */
+void srtArr(float arr[], int size)
+{
+	int scan,		//Element location
+			minIndx;	//minimum element
+		int maxElmt;	//maximum element
+		//Outer sorting loop
+		for(scan=0; scan<(size-1); scan++)
+		{
+			minIndx = scan;		//assign minimum element to scan location
+			maxElmt = arr[scan];//initialize max element of array to scan location
+			//inner sorting loop
+			for(int i=scan + 1; i < size; i++)
+				//execute if element above is less than specified element
+				if(arr[i] < maxElmt)
+				{
+					maxElmt = arr[i];	//initialize max element to first element
+					minIndx = i;		//set minimum to index
+				}
+			arr[minIndx] = arr[scan];	//array minimum element to scan location
+			arr[scan] = maxElmt;		//array element of scan location to max element
+		}
+	}
