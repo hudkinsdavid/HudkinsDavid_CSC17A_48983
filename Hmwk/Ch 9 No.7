@@ -1,0 +1,129 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Sep 27, 2015
+ *      Author: David Hudkins Ii
+ *
+ *  Purpose: Modify Donations to be sorted in ascending order
+ */
+
+//System Libraries
+#include<iostream>
+using namespace std;
+
+//Function prototypes
+void getArr(int *, int);
+void sortArr(int [], int);
+void showArr(const int [], int);
+void showPtr(int [], int);
+
+//Main function
+int main()
+{
+	//Declare variables
+	int numDon,				//INPUT-number of donations
+		i;					//index
+	int *donations = NULL;	//pointer to array for dynamic allocation
+
+	//Prompt user to input number of donations
+	cout << "Enter the number of donations to be entered: ";
+	cin >> numDon;
+
+	//Dynamically allocate array for donations
+	donations = new int[numDon];
+
+	//Get donation amounts
+	getArr(donations, numDon);
+
+	//Declare pointer to array for sorting
+	int arrPtr[numDon];
+
+	//Loop to assign original array to pointer
+	for(i=0; i<numDon; i++)
+	{
+		arrPtr[i] = donations[i];
+	}
+
+	//Sort array pointer
+	sortArr(arrPtr, numDon);
+	//Show original array
+	showArr(donations, numDon);
+	//Show modified pointer array
+	showPtr(arrPtr, numDon);
+
+	//Terminate program
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////FUNCTION PROTOTYPES//////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+/*getArr function allows user to input donations into an array that has been
+ * dynamically allocated. The function will modify the array being pointed to
+ * and then terminate.
+ */
+void getArr(int *arr, int max)
+{
+	//Prompt user to input donations
+	cout << "Please input " << max << " donation amounts : " << endl;
+	//Loop for donation input
+	for(int i=0; i<max; i++)
+	{
+		cout << "Donation " << i + 1 << ": ";
+		cin >> arr[i];
+	}
+}
+
+/*sortArr function receives an array as a parameter as well as its size and
+ * sorts the array into descending order.
+ */
+void sortArr(int arr[], int size)
+{
+	int scan,		//Element location
+		minIndx;	//minimum element
+	int maxElmt;	//maximum element
+	//Outer sorting loop
+	for(scan=0; scan<(size-1); scan++)
+	{
+		minIndx = scan;		//assign minimum element to scan location
+		maxElmt = arr[scan];//initialize max element of array to scan location
+		//inner sorting loop
+		for(int i=scan + 1; i < size; i++)
+			//execute if element above is less than specified element
+			if(arr[i] > maxElmt)
+			{
+				maxElmt = arr[i];	//initialize max element to first element
+				minIndx = i;		//set minimum to index
+			}
+		arr[minIndx] = arr[scan];	//array minimum element to scan location
+		arr[scan] = maxElmt;		//array element of scan location to max element
+	}
+}
+
+/*showArr function receives an array as a constant along with the size of the
+ * array for the purpose of displaying the contents of the array to console
+ * output.
+ */
+void showArr(const int arr[], int size)
+{
+	int count;						//counter for loop
+	//Loop to display contents of array
+	for(count = 0; count < size; count++)
+		cout << arr[count] << " ";
+	cout << endl;
+}
+
+/*showPtr function receives an array along with the size of the array for the
+ * purpose of displaying the contents of the array to console output.
+ */
+void showPtr(int arr[], int size)
+{
+	int count;								//Counter for loop
+	//Loop to display the contents of the pointer array
+	for(count = 0; count < size; count++)
+		cout << arr[count] << " ";
+	cout << endl;
+}
