@@ -1,0 +1,93 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Oct 4, 2015
+ *      Author: David Hudkins II
+ *  Purpose: Display the number of words in a string as well as average number
+ *  of letters per word.
+ */
+//System Libraries
+#include <iostream>
+using namespace std;
+
+//Functions Prototypes
+int numWord(char*, int);	//Numbers of words in array
+int numLtr(char*, int);		//Number of letters	in array
+
+//Main Function
+int main()
+{
+	/****************************************
+	 * CONSTANTS:
+	 *
+	 * SIZE: size of array
+	 ****************************************/
+	const int SIZE = 1000;
+
+	//Declare Variables
+	char str[SIZE];		//INPUT - Character string for user input of size SIZE
+	int avgLtr;			//Average letters per word
+
+	//Prompt user to input a C-string
+	cout << "Input a C-string to be evaluated: ";
+	cin.getline(str, SIZE);
+
+	//Calculate average number of letters per word
+	avgLtr = numLtr(str,SIZE)/numWord(str,SIZE);
+
+	//Display number of words and average letters per word
+	cout << "There are " << numWord(str,SIZE) << " words in the C-string.\n";
+	cout << "There are " <<	avgLtr << " average letters per word";
+	cout << " in the C-string";
+
+	//Terminate program
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////FUNCTIONS////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+/* numWord function receives pointer to an array and the size of the array
+ * as a parameter. The function then loops to find the number of whitespace
+ * to determine the amount of words in the character array. Returns number
+ * found.
+ */
+int numWord(char* ch, int max)
+{
+	//Declare variables
+	int count;
+	int words = 1;
+
+	//Loop to find whitespace
+	for(count=0;count<max;count++)
+	{
+		//Increment number of words if whitespace is found
+		if(ch[count]==' ')
+			words++;
+	}
+	//Return number of words found
+	return words;
+}
+
+/* numLtr function receives pointer to an array and the size of the array
+ * as a parameter. The function then loops to find the number of letters in
+ * the character array and returns that number.
+ */
+int numLtr(char* ch, int max)
+{
+	//Declare variables
+	int count,		//Counter for loop
+		ltr = 0;	//Number of letters in character string
+	//Loop until null terminator to find number of letters
+	for(count=0;ch[count]!='\0';count++)
+	{
+		//Increment letters if character is alphabetical
+		if(isalpha(ch[count]))
+			ltr++;
+	}
+	//Return number of letters found
+	return ltr;
+}
