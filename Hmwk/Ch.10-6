@@ -1,0 +1,145 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Oct 4, 2015
+ *      Author: David Hudkins II
+ *  Purpose: Determine the number of vowels and the number of consonants in
+ *  	a character string.
+ */
+//System Libraries
+#include <iostream>
+using namespace std;
+
+//Functions Prototypes
+int numVwls(char*, int);
+int numCsnt(char*, int);
+
+//Main Function
+int main()
+{
+	/********************************
+	 * CONSTANTS
+	 * ____________
+	 * SIZE: size of array
+	 ********************************/
+	const int SIZE = 1000;
+
+	//Declare Variables
+	char str[SIZE];		//INPUT: Character string of size SIZE
+	char choice;		//INPUT: Menu navigator
+	int num;			//Holds numbers returned from functions
+
+	//Prompt user to input character string
+	cout << "Enter any string of characters: ";
+	cin.getline(str,SIZE);
+
+	//Loop to display menu
+	do
+	{
+		cout << "A) Count the number of vowels in the string" << endl;
+		cout << "B) Count the number of consonants in the string" << endl;
+		cout << "C) Count both the vowels and consonants in the string" << endl;
+		cout << "D) Enter another string" << endl;
+		cout << "E) Exit the program" << endl;
+		//Menu choice
+		cin >> choice;
+		//Menu navigation operation
+		switch(choice)
+		{
+		case'A':
+		case'a': num = numVwls(str,SIZE);	//Determine num of vowels
+				 cout << num << " vowels in the string.\n" << endl;
+				 break;
+		case'B':
+		case'b': num = numCsnt(str,SIZE);	//Determine num of consonants
+				 cout << num << " consonants in the string.\n" << endl;
+				 break;
+		case'C':
+		case'c': //Determine num of consonants and vowels
+				 num = (numVwls(str,SIZE)) + (numCsnt(str,SIZE));
+				 cout << num << " vowels and consonants in the string.\n" << endl;
+				 break;
+		case'D':
+		case'd': //Prompt user to input character string
+				 cout << "Enter any string of characters: ";
+				 cin.get();
+				 cin.getline(str,SIZE);
+				 break;
+		case'E':
+		case'e': cout << "Goodbye!";		//Terminate switch statement
+				 break;
+		default: cout << "Invalid choice.\n" << endl;
+		}
+	}while(choice != 'E' && choice != 'e');	//While user does not exit
+	//Terminate program
+	return 0;
+}
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////FUNCTIONS//////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+/* numVwls function receives a pointer to a character array as well as its
+ * size and determines the number of vowels in the array.
+ */
+int numVwls(char* arr, int max)
+{
+	int i,			//Index for loop
+		count = 0;	//Counter for vowels
+	//Loop to cycle through array elements
+	for(i=0;arr[i]!='\0'; i++)
+	{
+		if(isalpha(arr[i]))	//Self-explanatory
+		{
+			switch(arr[i])	//Checks for vowels
+			{
+			case'A':
+			case'a':
+			case'E':
+			case'e':
+			case'I':
+			case'i':
+			case'O':
+			case'o':
+			case'U':
+			case'u': count++;	//increment for vowels
+					 break;
+			default: break;
+			}
+		}
+	}
+	return count;
+}
+
+/* numCsnt function receives a pointer to a character array as well as its
+ * size and determines the number of consonants in the array.
+ */
+int numCsnt(char* arr, int max)
+{
+	int i,			//Index for loop
+		count = 0;	//Counter for consonants
+	//Loop to cycle through array elements
+	for(i=0;arr[i]!='\0'; i++)
+	{
+		if(isalpha(arr[i]))	//Self-explanatory
+		{
+			switch(arr[i])	//Checks for vowels
+			{
+			case'A':
+			case'a':
+			case'E':
+			case'e':
+			case'I':
+			case'i':
+			case'O':
+			case'o':
+			case'U':
+			case'u': break;
+			default: count++;	//increment for consonants
+					 break;
+			}
+		}
+	}
+	return count;
+}
