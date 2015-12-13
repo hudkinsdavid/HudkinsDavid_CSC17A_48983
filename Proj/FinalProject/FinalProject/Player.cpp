@@ -13,6 +13,7 @@
 Player::Player()
 {
 	win	   = 0;
+	diff =   0;
 	name = "0";
 }
 
@@ -105,7 +106,7 @@ void Player::setInfo()
  ******************************************************************************/
 int Player::shwMenu()
 {
-	int choice;
+	int choose;
 	//Display Menu
 	do
 	{
@@ -115,19 +116,29 @@ int Player::shwMenu()
 		cout << "(1)Allow computer to choose word" << endl;
 		cout << "(2)Input a word of your own for somebody else to play" << endl;
 		cout << "(3)Quit" << endl;
-		cin >> choice;				//INPUT- Menu choice
+		cin >> choose;				//INPUT- Menu choice
 
 		//Validate input
-		while(!cin >> choice)		//Execute while input is broken
+		while(!cin >> choose)		//Execute while input is broken
 		{
 			cin.clear();			//Clear keyboard buffer
 			cin.ignore(1000,'\n');	//Ignore characters until whitespace
 			cout << "Incorrect input. Please use an integer." << endl << endl;	//Inform user of invalid input
 		}
-	}while(choice != 1 && choice != 2 && choice != 3); //Execute until menu choice is valid
+	}while(choose != 1 && choose != 2 && choose != 3); //Execute until menu choice is valid
 
 	//Return menu choice to calling function
-	return choice;
+	return choose;
+}
+
+void Player::gmMode()
+{
+	//Display options and prompt user for desired difficulty
+	cout<<"Enter the level of difficulty you would like: "<<endl;
+	cout<<"\t(1)Easy: Small words / 3 incorrect guesses"<<endl;
+	cout<<"\t(2)Normal: Large words / 5 incorrect guesses"<<endl;
+	cout<<"\t(3)Hard: Good luck / 7 incorrect guesses"<<endl;
+	cin>>diff;		//INPUT- Difficulty level
 }
 
 #endif /* PLAYER_CPP_ */

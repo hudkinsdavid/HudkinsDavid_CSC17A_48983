@@ -12,7 +12,6 @@
 
 Word::Word()
 {
-	diff=0;
 	flName1="0";
 	flName1="0";
 	flName3="0";
@@ -24,15 +23,15 @@ Word::Word()
  * to that array to be randomly seeded into a string variable that is passed
  * back into the calling function.
  ******************************************************************************/
-string Word::genWord(int diff)
+string Word::genWord(int difclty)
 {
 	string gameWrd[AR_SIZE];	//Array of words
-	int index = 0;				//Index for array
-	flName1 = "word1.txt";		//Input file name
-	flName2 = "word2.txt";		//Input file name
-	flName3 = "word3.txt";		//Input file name
+	int index 			= 0;	//Index for array
+	flName1 = 	"word1.txt";	//Input file name
+	flName2 = 	"word2.txt";	//Input file name
+	flName3 = 	"word3.txt";	//Input file name
 
-	switch(diff)
+	switch(difclty)
 	{
 	case 1:
 		//Open the word list file and assign words to array

@@ -20,12 +20,11 @@ using namespace std;
 class Word
 {
 protected:
-	static const int AR_SIZE = 100;//Size of array
-	int diff;					   //Word difficulty
-	ifstream inFile;			   //Input file designator
-	string flName1;				   //Input file name for easy
-	string flName2;				   //Input file name for normal
-	string flName3;				   //Input file name for hard
+	static const int AR_SIZE = 100;	//Size of array
+	ifstream 				inFile;	//Input file designator
+	string  			   flName1;	//Input file name for easy
+	string 				   flName2;	//Input file name for normal
+	string  			   flName3;	//Input file name for hard
 public:
 	Word();
 	string genWord(int);

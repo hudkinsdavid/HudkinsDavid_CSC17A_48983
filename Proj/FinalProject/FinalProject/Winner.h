@@ -12,7 +12,7 @@
 #ifndef WINNER_H_
 #define WINNER_H_
 
-class Winner : protected Player,Word
+class Winner : public Player, public Word
 {
 protected:
 	int 	 choice;	//Menu choice
@@ -26,9 +26,12 @@ protected:
 	char	   quit;	//Choose to continue playing or quit
 public:
 	Winner();
-	int initGme(char[], char[]);
-	void plyGame();
-	void play();
+	Winner(int);
+	void	setChoic(int c){choice=c;}
+	int 	getChoic(){return choice;}
+	int 	  initGme(char[], char[]);
+	void 					plyGame();
+	void 					   play();
 };
 
 #endif /* WINNER_H_ */

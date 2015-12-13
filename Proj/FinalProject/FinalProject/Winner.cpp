@@ -22,6 +22,19 @@ Winner::Winner()
 	prgrss = new char[AR_SIZE];
 }
 
+Winner::Winner(int choose)
+{
+	choice =			choose;
+	path =					 0;
+	incGues =				 0;
+	chars =					 0;
+	end =					 0;
+    wrdPlay =			   "0";
+    quit =				   '0';
+	word   = new char[AR_SIZE];
+	prgrss = new char[AR_SIZE];
+}
+
 /******************************************************************************
  * initGme function intitializes the arrays that are used in the execution of
  * the main gameplay. Two character arrays are accepted as parameters and the
@@ -51,9 +64,6 @@ void Winner::plyGame()
 {
 	do
 	{
-
-		choice = shwMenu();				//Show game menu and assign choice
-
 		//Execute according to user's menu choice
 		switch(choice)
 		{

@@ -22,7 +22,17 @@
 int main()
 {
 	//Declare Variables
-	cout << "what the fuck?";
+	Winner p1;
 
-	return 0;											//Terminate Program
+	//Show game rules
+	p1.rules();
+
+	//Get information from user for game initialization
+	p1.setInfo();
+
+	p1.setChoic(p1.shwMenu());
+
+	p1.gmMode();
+
+	return 0;	//Terminate Program
 }

@@ -27,14 +27,16 @@ class Player
 {
 protected:
 	//Variables
-	bool 	win;
-	string name;
+	bool 	   win;
+	string    name;
+	int    	  diff;
 public:
-	Player();
-	void rules();
+    Player();
+	void   rules();
 	void setInfo();
-	int shwMenu();
-	void plyGame();
+	int  shwMenu();
+	void  gmMode();
+	int  getMode(){return diff;}
 };
 
 #endif /* PLAYER_H_ */
