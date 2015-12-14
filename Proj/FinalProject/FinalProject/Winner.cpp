@@ -14,23 +14,13 @@ Winner::Winner()
 	choice =				 0;
 	path =					 0;
 	incGues =				 0;
+	count1 =				 0;
+	count2 =				 0;
 	chars =					 0;
 	end =					 0;
     wrdPlay =			   "0";
     quit =				   '0';
-	word   = new char[AR_SIZE];
-	prgrss = new char[AR_SIZE];
-}
-
-Winner::Winner(int choose)
-{
-	choice =			choose;
-	path =					 0;
-	incGues =				 0;
-	chars =					 0;
-	end =					 0;
-    wrdPlay =			   "0";
-    quit =				   '0';
+    mark = new char[AR_SIZE]();
 	word   = new char[AR_SIZE];
 	prgrss = new char[AR_SIZE];
 }
@@ -47,12 +37,15 @@ int Winner::initGme(char word[], char progrss[])
 {
 	//Declare variables
 	int numChar = 0;			//Number of characters in gameplay word
+
 	//Loop until null terminator is encountered
 	for(int i=0; word[i]!='\0'; i++)
 		numChar = i;			//Assign number of characters in gameplay word to variable
+
 	//Loop for number of characters in gameplay word
 	for(int i=0; i<=numChar; i++)
 		progrss[i] = word[i];	//Assign subscript of gameplay word array to subscript of progress array
+
 	//Loop for number of characters in gameplay word
 	for(int i=0; i<=numChar; i++)
 		progrss[i] = '-';		//Assign blank space to all subscripts of progress array
@@ -64,6 +57,13 @@ void Winner::plyGame()
 {
 	do
 	{
+		//Initialize array that tracks user progression and correct guesses
+		for(int i = 0;i<AR_SIZE;i++)
+			mark[i]='0';
+
+		//Display menu and allow user to choose gameplay settings
+		setChoic(shwMenu());
+
 		//Execute according to user's menu choice
 		switch(choice)
 		{
@@ -77,9 +77,29 @@ void Winner::plyGame()
 
 		//Computer generates word to play game
 		if(path == 1)
-			wrdPlay = genWord(choice);		//Set game word to computer generated word
+		{
+			gmMode();							//Set difficulty
+			wrdPlay = genWord(getMode());		//Set game word to computer generated word
+
+			//Set number of incorrect guesses relevant to difficulty chosen
+			switch(getMode())
+			{
+			case 1:
+				end=3;		//Easy mode-3 incorrect guesses allowed
+				break;
+			case 2:
+				end=5;		//Normal mode-5 incorrect guesses allowed
+				break;
+			case 3:
+				end=7;		//Hard mode-7 incorrect guesses allowed
+				break;
+			}
+		}
 		else
-			wrdPlay = usrWord();			//Set game word to user input word
+		{
+			wrdPlay = usrWord();				//Set game word to user input word
+			end=5;								//User mode automatically set to normal
+		}
 
 		strcpy(word,wrdPlay.c_str());			//Convert string to character array
 
@@ -91,25 +111,46 @@ void Winner::plyGame()
 		do
 		{
 			//Call function to allow player to input character guess
-			plyGame();
-			//Loop to check for correct guess
+			play();
+
+			//Loop to check for winning condition
 			for(int i=0, chkWin=0; i<=chars; i++)
 			{
-				if (word[i]==prgrss[i])		//Execute if guess matches a character in the word
+				if(word[i]==prgrss[i])		//Execute if guess matches a character in the word
+				{
 					chkWin+=1;				//Increment amount of letters guessed correctly
-				if(chkWin==chars+1)			//Execute if number of correct guesses equals number of characters in the game word
+
+					//Execute if location of score keeping is empty, indicating a new correct guess
+					if(mark[i]=='0')
+					{
+						mark[i]=word[i];	//Input and track correct guess
+						count1++;			//Increment count to indicate correct guess this phase
+					}
+				}
+
+				//Execute if number of correct guesses equals number of characters in the game word
+				if(chkWin==chars+1)
 					win=true;				//Set winning flag to true
 			}
-			incGues++;						//Increment number of guesses
-		}while(*incGues < end && win==false);	//Loop until max guesses or winning condition
+			//Execute if current counter and holding counter evaluate as equal
+			if(count1 == count2)
+				incGues++;					//Increment number of guesses
+
+			//Set counter for number of guesses to current counter for later comparison
+			count2 = count1;
+		}while(incGues < end && win==false);	//Loop until max guesses or winning condition
 
 		//Inform user of what the game word was
 		cout << "The word was ";
+
 		//Loop to display game word
 		for(int i=0; i<=chars; i++)
 			cout << word[i];
-		if(win==true)									//Execute if win flag is true
+
+		//Execute if win flag is true
+		if(win==true)
 			cout << "\n\nGood Job! You won!" << endl;	//Inform user of win
+
 		//Prompt user to play again
 		cout << "Would you like to play again?" << endl;
 		cin >> quit;									//INPUT- Play again or not
@@ -121,7 +162,7 @@ void Winner::plyGame()
  * play function accepts three parameters including two arrays. The arrays
  * are the gameplay word array and the gameplay progress array. The number
  * of characters in the gameplay word is accepted as a parameter as well. The
- * function loops to display the progress and promts the user to input one
+ * function loops to display the progress and prompts the user to input one
  * character as a guess regarding the existence of the guess as a character in
  * the word. If the guess is correct, it is assigned to its respective location
  * in the progress array in as many places as it occurs.
@@ -130,12 +171,15 @@ void Winner::play()
 {
 	//Declare variables
 	char gChar;					//INPUT- Character guess
+
 	//Loop for number of characters in gameplay word
 	for(int i=0; i<=chars; i++)
 		cout << prgrss[i];		//Display gameplay progress
+
 	//Prompt user to input guess
 	cout << endl << "Guess one character in the word: ";
 	cin >> gChar;				//INPUT- Character guess
+
 	//Loop for number of characters in gameplay word
 	for(int i=0; i<=chars; i++)
 	{

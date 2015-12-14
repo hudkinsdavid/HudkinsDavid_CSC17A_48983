@@ -24,15 +24,14 @@ int main()
 	//Declare Variables
 	Winner p1;
 
+	p1.getchar();
 	//Show game rules
 	p1.rules();
 
 	//Get information from user for game initialization
 	p1.setInfo();
 
-	p1.setChoic(p1.shwMenu());
-
-	p1.gmMode();
+	p1.plyGame();
 
 	return 0;	//Terminate Program
 }

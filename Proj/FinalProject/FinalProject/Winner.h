@@ -18,15 +18,18 @@ protected:
 	int 	 choice;	//Menu choice
 	int 	   path;	//Determines how program will execute
 	int			end;	//Maximum number of moves
+	int		 count1;	//Counter for correct guesses
+	int		 count2;	//Counter for correct guesses
 	string 	wrdPlay;	//Word used to play hangman
+	char	  *mark;	//Subscript of array already guessed correctly
 	char 	  *word;	//Word used to play hangman
 	char 	*prgrss;	//Keep track of game progression
 	int		  chars;	//Number of characters in game word
-	int	   *incGues;	//Number of guesses player has made
+	int	    incGues;	//Number of guesses player has made
 	char	   quit;	//Choose to continue playing or quit
 public:
 	Winner();
-	Winner(int);
+	void     getchar(){cout<<mark[34];}
 	void	setChoic(int c){choice=c;}
 	int 	getChoic(){return choice;}
 	int 	  initGme(char[], char[]);

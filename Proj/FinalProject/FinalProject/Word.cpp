@@ -49,7 +49,7 @@ string Word::genWord(int difclty)
 		srand(time(0));
 
 		//Return a random word from the word list file
-		return gameWrd[(rand() % 30)];
+		return gameWrd[(rand() % 10)];
 
 	case 2:
 		//Open the word list file and assign words to array
@@ -67,7 +67,7 @@ string Word::genWord(int difclty)
 		srand(time(0));
 
 		//Return a random word from the word list file
-		return gameWrd[(rand() % 30)];
+		return gameWrd[(rand() % 10)];
 
 	case 3:
 		//Open the word list file and assign words to array
@@ -85,7 +85,7 @@ string Word::genWord(int difclty)
 		srand(time(0));
 
 		//Return a random word from the word list file
-		return gameWrd[(rand() % 30)];
+		return gameWrd[(rand() % 10)];
 	}
 	return 0;
 }
