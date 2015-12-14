@@ -11,18 +11,21 @@
 
 Winner::Winner()
 {
-	choice =				 0;
-	path =					 0;
-	incGues =				 0;
-	count1 =				 0;
-	count2 =				 0;
-	chars =					 0;
-	end =					 0;
-    wrdPlay =			   "0";
-    quit =				   '0';
-    mark = new char[AR_SIZE]();
-	word   = new char[AR_SIZE];
-	prgrss = new char[AR_SIZE];
+	choice =	 			  0;
+	path =		 			  0;
+	incGues =	 			  0;
+	count1 =				  0;
+	count2 =				  0;
+	count3 =   				  0;
+	flag =					  0;
+	chars =					  0;
+	end =					  0;
+    wrdPlay =			    "0";
+    quit =				    '0';
+    mark =    new char[AR_SIZE];
+	word   =  new char[AR_SIZE];
+	prgrss =  new char[AR_SIZE];
+	guesses = new char[AR_SIZE];
 }
 
 /******************************************************************************
@@ -125,6 +128,7 @@ void Winner::plyGame()
 					{
 						mark[i]=word[i];	//Input and track correct guess
 						count1++;			//Increment count to indicate correct guess this phase
+						flag=1;				//Set flag to indicate at least one correct guess has been made
 					}
 				}
 
@@ -132,8 +136,9 @@ void Winner::plyGame()
 				if(chkWin==chars+1)
 					win=true;				//Set winning flag to true
 			}
+
 			//Execute if current counter and holding counter evaluate as equal
-			if(count1 == count2)
+			if(count1 == count2 || flag==0)
 				incGues++;					//Increment number of guesses
 
 			//Set counter for number of guesses to current counter for later comparison
@@ -151,9 +156,29 @@ void Winner::plyGame()
 		if(win==true)
 			cout << "\n\nGood Job! You won!" << endl;	//Inform user of win
 
+		//Execute if win flag is false
+		if(win==false)
+		{
+			//Show completed hangman
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<".W W.|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+			cout<<"Letters guessed: ";
+
+			//Show the letters already guessed
+			for(int i=0; i<count3; i++)
+				cout<<guesses[i];
+
+			//Indicate loss
+			cout<<"\nYou're DEAD!"<<endl<<endl;
+		}
 		//Prompt user to play again
 		cout << "Would you like to play again?" << endl;
 		cin >> quit;									//INPUT- Play again or not
+
+		//Set guesses to 0 and counter for guesses to 0
+		incGues=0;
+		count3=0;
 
 	}while(quit=='Y' || quit=='y');						//Loop until user chooses to quit
 }
@@ -172,6 +197,15 @@ void Winner::play()
 	//Declare variables
 	char gChar;					//INPUT- Character guess
 
+	//Show hangman progression
+	hangMan();
+	cout<<"Letters guessed: ";
+
+	//Show the letters already guessed
+	for(int i=0; i<count3; i++)
+		cout<<guesses[i];
+	cout<<endl<<endl;
+
 	//Loop for number of characters in gameplay word
 	for(int i=0; i<=chars; i++)
 		cout << prgrss[i];		//Display gameplay progress
@@ -180,12 +214,184 @@ void Winner::play()
 	cout << endl << "Guess one character in the word: ";
 	cin >> gChar;				//INPUT- Character guess
 
+	//Put guess in array of guesses
+	guesses[count3]=gChar;
+
 	//Loop for number of characters in gameplay word
 	for(int i=0; i<=chars; i++)
 	{
 		//Execute if guess is correct at gameplay word subscript
 		if(gChar == word[i])
 			prgrss[i] = gChar;	//Assign guess to progress arrays respective location(s)
+	}
+
+	//Increment number of turns
+	count3+=1;
+}
+
+/******************************************************************************
+ * hangMan function displays the hangman character based on the current
+ * progression of the game at the time that it is called.
+ ******************************************************************************/
+void Winner::hangMan()
+{
+	//Execute according to game difficulty chosen
+	switch(getMode())
+	{
+	//Execute if game is in easy mode
+	case 1:
+		//Display initial hangman figure
+		if(incGues==0)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<"|"<<endl;
+			cout<<setw(12)<<"|"<<endl<<setw(12)<<"|"<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 1
+		if(incGues==1)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 2
+		else if(incGues==2)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 3
+		else if(incGues==3)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<".W W.|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+		break;
+
+	//Execute if game is in normal mode
+	case 2:
+		//Display initial hangman figure
+		if(incGues==0)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<"|"<<endl;
+			cout<<setw(12)<<"|"<<endl<<setw(12)<<"|"<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 1
+		if(incGues==1)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 2
+		else if(incGues==2)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|  |"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 3
+		else if(incGues==3)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 4
+		else if(incGues==4)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<".W  |"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 5
+		else if(incGues==5)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<".W W.|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		break;
+
+	//Execute if game is in hard mode
+	case 3:
+		//Display initial hangman figure
+		if(incGues==0)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<"|"<<endl;
+			cout<<setw(12)<<"|"<<endl<<setw(12)<<"|"<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 1
+		if(incGues==1)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 2
+		else if(incGues==2)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<" -|  |"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 3
+		else if(incGues==3)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<" -|- |"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 4
+		else if(incGues==4)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|- |"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 5
+		else if(incGues==5)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<"|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 6
+		else if(incGues==6)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<".W   |"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		//Display if number of guesses is 7
+		else if(incGues==7)
+		{
+			cout<<setw(11)<<"___"<<endl<<setw(12)<<"|  |"<<endl<<setw(12)<<" O  |";
+			cout<<endl<<setw(12)<<"/-|-/|"<<endl<<setw(12)<<".W W.|"<<endl<<setw(12)<<"|";
+			cout<<endl<<setw(13)<<"---"<<endl<<endl;
+		}
+
+		break;
+
+	//Default switch execution
+	default: cout<<"ERROR";
 	}
 }
 
