@@ -1,15 +1,20 @@
 /*
  * Word.cpp
  *
- *  Created on: Dec 7, 2015
- *      Author: David
+ *  Created on: Dec 3, 2015
+ *      Author: David Hudkins II
+ *     Purpose: Define member functions of class Word
  */
 
+//User Libraries
 #include "Word.h"
 
 #ifndef WORD_CPP_
 #define WORD_CPP_
 
+/******************************************************************************
+ * Word function is the constructor for the Word class
+ ******************************************************************************/
 Word::Word()
 {
 	flName1="0";
@@ -106,5 +111,10 @@ string Word::usrWord()
 
 	return word;		//Return user defined word for gameplay to calling function
 }
+
+/******************************************************************************
+ * ~Word function is the destructor for the Word class
+ ******************************************************************************/
+Word::~Word(){}
 
 #endif /* WORD_CPP_ */

@@ -4,6 +4,8 @@
  *  Created on: Dec 1, 2015
  *      Author: David Hudkins II
  *     Purpose: Create a class Player to keep track of game player's data
+ *     	which includes their name and location. This class also handles the
+ *     	difficulty level of the game that the user chooses.
  */
 
 #include<iostream>		//Console input/output streaming library
@@ -26,17 +28,25 @@ struct PlyInfo		//Player information structure
 class Player
 {
 protected:
-	//Variables
+	//Variables to be utilized by class Player and derived classes
 	bool 	   win;
 	string    name;
 	int    	  diff;
 public:
+	//Default Constructor
     Player();
+
+    //Accessor Functions
 	void   rules();
-	void setInfo();
 	int  shwMenu();
-	void  gmMode();
 	int  getMode(){return diff;}
+
+	//Mutator Functions
+	void setInfo();
+	void  gmMode();
+
+	//Destructor
+	~Player();
 };
 
 #endif /* PLAYER_H_ */

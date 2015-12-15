@@ -26,9 +26,15 @@ protected:
 	string 				   flName2;	//Input file name for normal
 	string  			   flName3;	//Input file name for hard
 public:
+	//Default Constructor
 	Word();
+
+	//Accessor Functions
 	string genWord(int);
 	string usrWord();
+
+	//Destructors
+	~Word();
 };
 
 #endif /* WORD_H_ */

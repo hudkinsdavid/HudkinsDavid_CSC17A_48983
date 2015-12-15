@@ -2,7 +2,8 @@
  * Player.cpp
  *
  *  Created on: Dec 7, 2015
- *      Author: David
+ *      Author: David Hudkins II
+ *     Purpose: Define the member functions of the Player class.
  */
 
 #include "Player.h"
@@ -10,6 +11,9 @@
 #ifndef PLAYER_CPP_
 #define PLAYER_CPP_
 
+/******************************************************************************
+ * Player function is the constructor for the Player class
+ ******************************************************************************/
 Player::Player()
 {
 	win	   = 0;
@@ -36,6 +40,39 @@ void Player::rules()
 	cout << "\t guesses in easy mode, 5 incorrect guesses in normal" << endl;
 	cout << "\t mode, and 7 incorrect guesses in hard mode, and will" << endl;
 	cout << "\t end the game." << endl << endl;
+}
+
+/******************************************************************************
+ * shwMenu function accepts no parameters and displays the menu for the game
+ * hangman. The player makes an integer choice through input and the function
+ * returns that integer to the calling function.
+ ******************************************************************************/
+int Player::shwMenu()
+{
+	int choose;
+	//Display Menu
+	do
+	{
+		//Prompt user to input integer from menu
+		cout << "Please input the corresponding integer to the" << endl;
+		cout << "path you would like to choose: " << endl << endl;
+		cout << "(1)Allow computer to choose word" << endl;
+		cout << "(2)Input a word of your own for somebody else to play" << endl;
+		cout << "(3)Quit" << endl;
+		cin >> choose;				//INPUT- Menu choice
+
+		//Validate input
+		while(!cin >> choose)		//Execute while input is broken
+		{
+			cin.clear();			//Clear keyboard buffer
+			cin.ignore(1000,'\n');	//Ignore characters until whitespace
+			cout << "Incorrect input. Please use an integer." << endl << endl;	//Inform user of invalid input
+			cin >> choose;
+		}
+	}while(choose != 1 && choose != 2 && choose != 3); //Execute until menu choice is valid
+
+	//Return menu choice to calling function
+	return choose;
 }
 
 /******************************************************************************
@@ -99,38 +136,6 @@ void Player::setInfo()
 	cout << locatn << ", lets play Hangman!" << endl << endl;
 }
 
-/******************************************************************************
- * shwMenu function accepts no parameters and displays the menu for the game
- * hangman. The player makes an integer choice through input and the function
- * returns that integer to the calling function.
- ******************************************************************************/
-int Player::shwMenu()
-{
-	int choose;
-	//Display Menu
-	do
-	{
-		//Prompt user to input integer from menu
-		cout << "Please input the corresponding integer to the" << endl;
-		cout << "path you would like to choose: " << endl << endl;
-		cout << "(1)Allow computer to choose word" << endl;
-		cout << "(2)Input a word of your own for somebody else to play" << endl;
-		cout << "(3)Quit" << endl;
-		cin >> choose;				//INPUT- Menu choice
-
-		//Validate input
-		while(!cin >> choose)		//Execute while input is broken
-		{
-			cin.clear();			//Clear keyboard buffer
-			cin.ignore(1000,'\n');	//Ignore characters until whitespace
-			cout << "Incorrect input. Please use an integer." << endl << endl;	//Inform user of invalid input
-		}
-	}while(choose != 1 && choose != 2 && choose != 3); //Execute until menu choice is valid
-
-	//Return menu choice to calling function
-	return choose;
-}
-
 void Player::gmMode()
 {
 	//Display options and prompt user for desired difficulty
@@ -139,6 +144,20 @@ void Player::gmMode()
 	cout<<"\t(2)Normal: Large words / 5 incorrect guesses"<<endl;
 	cout<<"\t(3)Hard: Good luck / 7 incorrect guesses"<<endl;
 	cin>>diff;		//INPUT- Difficulty level
+
+	//Validate input
+	while(!cin >> diff)
+	{
+		cin.clear();														//Clear keyboard buffer
+		cin.ignore(1000,'\n');												//Ignore characters until whitespace
+		cout << "Incorrect input. Please use an integer." << endl << endl;	//Inform user of invalid input
+		cin >> diff;														//INPUT- Difficulty setting
+	}
 }
+
+/******************************************************************************
+ * ~Player function is the destructor for the Player class
+ ******************************************************************************/
+Player::~Player(){}
 
 #endif /* PLAYER_CPP_ */
